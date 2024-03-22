@@ -1,9 +1,17 @@
 services:
-  - name: web
-    buildCommand: |
-      set -e
-      cp .env.example .env
-      composer install --no-interaction --prefer-dist --optimize-autoloader
-      php artisan key:generate
-      php artisan migrate --force
-    startCommand: php artisan serve --host 0.0.0.0 --port $PORT
+  - name: laravel
+    buildCommand: "php artisan migrate --force"
+    startCommand: "php artisan serve --host 0.0.0.0 --port $PORT"
+    env: 
+      - key: APP_KEY
+        value: "base64:Tu_App_Key_Aquí"
+      - key: APP_ENV
+        value: "production"
+      - key: APP_URL
+        value: "https://mi-aplicacion.render.com"
+
+databases:
+  - name: my_database
+    external: true
+    env:
+      DATABASE_URL: "postgres://example_laravel_xly0_user:0k5VlEutJflX7VbecC46xDMZwi1fEnzc@dpg-cnuhk3fjbltc73c3ugk0-a/example_laravel_xly0"
